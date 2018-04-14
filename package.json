@@ -4,10 +4,13 @@
   "description": "A magic 8-ball app for Ethereum, and also, Doge meme. Much. Wow.",
   "main": "index.js",
   "scripts": {
+    "gethinitdev": "geth --datadir=./chaindata/ init ./genesis.json",
+    "gethdev": "geth --datadir=./chaindata/ --rpc",
     "truffle": "truffle",
-    "ganache": "ganache-cli -p 7545 --gasLimit 5000000",
+    "ganache": "ganache-cli -p 7545 ",
+    "ganachelimit": "ganache-cli -p 7545 --gasLimit 5000000",
     "test": "truffle test",
-    "deploy": "truffle migrate --network development",
+    "devdeploy": "truffle migrate --network development",
     "build": "truffle compile"
   },
   "license": "MIT",

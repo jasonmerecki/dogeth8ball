@@ -3,5 +3,6 @@
 *.iml
 node_modules
 build
+chaindata
 
 
