@@ -11,7 +11,7 @@ contract Dogeth8ball is Dogeth8ballAuth {
         dogeOwner = msg.sender;
     }
 
-    function AskDoge() public payable returns (uint256) {
+    function askDoge() public payable returns (uint256) {
         coinSlot = coinSlot + msg.value;
         uint256 theans = _findAnswer();
         return theans;
