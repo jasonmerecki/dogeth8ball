@@ -7,6 +7,7 @@ contract Dogeth8ballAuth {
     address public dogeOwner;
 
     bool public paused = false;
+    uint public minWei = 100;
 
     /// @dev Access modifier for only doge owner (me!)
     modifier onlyDogeOwner() {
@@ -22,6 +23,16 @@ contract Dogeth8ballAuth {
 
     function withdrawBalance() external onlyDogeOwner {
         dogeOwner.transfer(this.balance);
+    }
+
+    modifier hasMinWei() {
+        require(msg.value >= minWei);
+        // do the rest
+        _;
+    }
+
+    function setMinWei(uint newMinWei) public onlyDogeOwner {
+        minWei = newMinWei;
     }
 
 }

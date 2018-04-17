@@ -1,8 +1,8 @@
 pragma solidity ^0.4.18;
 
-import "./Dogeth8ballAuth.sol";
+import "./Dogeth8ballBase.sol";
 
-contract Dogeth8ball is Dogeth8ballAuth {
+contract Dogeth8ball is Dogeth8ballBase {
 
     uint private coinSlot; // money goes in here
 
@@ -11,7 +11,7 @@ contract Dogeth8ball is Dogeth8ballAuth {
         dogeOwner = msg.sender;
     }
 
-    function askDoge() public payable returns (uint256) {
+    function askDoge() public payable hasMinWei returns (uint256) {
         coinSlot = coinSlot + msg.value;
         uint256 theans = _findAnswer();
         return theans;
