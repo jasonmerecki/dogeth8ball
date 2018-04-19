@@ -34,11 +34,11 @@ contract('Dogeth8ball', function(accounts) {
     })
   }),
 
-  it("should reject non-owner from setting wei", function() {
+  it("should reject non-dogeOwner from setting wei", function() {
     Dogeth8ball.deployed().then(function (inst) {
       dogeinst = inst;
       var params = {from: web3.eth.accounts[3], gas:1000000};
-      var theans = dogeinst.setMinWei(100, params)
+      var theans = dogeinst.setMinWei(1017, params)
         .then(function (val) {
           assert(false, "should revert");
         })
@@ -48,11 +48,11 @@ contract('Dogeth8ball', function(accounts) {
     })
   }),
 
-  it("should alow owner to set wei", function() {
+  it("should alow dogeOwner to set wei", function() {
     Dogeth8ball.deployed().then(function (inst) {
       dogeinst = inst;
       var params = {from: web3.eth.accounts[0], gas:1000000};
-      var theans = dogeinst.setMinWei(100, params)
+      var theans = dogeinst.setMinWei(1017, params)
         .then(function (val) {
           assert(true, "all aweseome");
         });

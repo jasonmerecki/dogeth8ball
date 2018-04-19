@@ -13,15 +13,11 @@ contract Dogeth8ball is Dogeth8ballBase {
 
     function askDoge() public payable hasMinWei returns (uint256) {
         coinSlot = coinSlot + msg.value;
-        uint256 theans = _findAnswer();
+        uint256 theans = _findAnswer(msg.sender);
         return theans;
     }
 
-    function _findAnswer() internal view returns (uint256) {
-        uint nowvar = now;
-        uint256 rema = nowvar % 24;
-        return rema;
-    }
+
 }
 
 
