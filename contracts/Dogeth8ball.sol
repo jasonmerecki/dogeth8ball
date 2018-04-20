@@ -17,6 +17,17 @@ contract Dogeth8ball is Dogeth8ballBase {
         return theans;
     }
 
+    function findMyDogeEvent(uint256 _dogeAnswerId) public view returns (uint256) {
+        address _owner = dogeAnswerToOwner[_dogeAnswerId] ;
+        require(_owner == msg.sender);
+        DogeAnswer memory _dogeAnswer = dogeAnswers[_dogeAnswerId];
+        return _dogeAnswer.theans;
+    }
+
+    function findADogeEvent(uint256 _dogeAnswerId) public view onlyDogeOwner returns (uint256) {
+        DogeAnswer memory _dogeAnswer = dogeAnswers[_dogeAnswerId];
+        return _dogeAnswer.theans;
+    }
 
 }
 

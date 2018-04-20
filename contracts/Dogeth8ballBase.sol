@@ -36,4 +36,5 @@ contract Dogeth8ballBase is Dogeth8ballAuth {
     return rema;
   }
 
+
 }
