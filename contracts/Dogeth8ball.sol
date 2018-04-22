@@ -11,22 +11,26 @@ contract Dogeth8ball is Dogeth8ballBase {
         dogeOwner = msg.sender;
     }
 
-    function askDoge() public payable hasMinWei returns (uint256) {
+    function askDoge() public payable hasMinWei  {
         coinSlot = coinSlot + msg.value;
-        uint256 theans = _findAnswer(msg.sender);
-        return theans;
+        _findAnswer(msg.sender);
+        DogeAnswerCount(dogeAnswerCount);
     }
 
-    function findMyDogeEvent(uint256 _dogeAnswerId) public view returns (uint256) {
+    function findMyDogeAnswer(uint256 _dogeAnswerId) public {
         address _owner = dogeAnswerToOwner[_dogeAnswerId] ;
         require(_owner == msg.sender);
         DogeAnswer memory _dogeAnswer = dogeAnswers[_dogeAnswerId];
-        return _dogeAnswer.theans;
+        DogeGaveAnswer (_dogeAnswer.answerOwner, _dogeAnswerId, _dogeAnswer.theans);
     }
 
-    function findADogeEvent(uint256 _dogeAnswerId) public view onlyDogeOwner returns (uint256) {
+    function findADogeAnswer(uint256 _dogeAnswerId) public onlyDogeOwner {
         DogeAnswer memory _dogeAnswer = dogeAnswers[_dogeAnswerId];
-        return _dogeAnswer.theans;
+        DogeGaveAnswer (_dogeAnswer.answerOwner, _dogeAnswerId, _dogeAnswer.theans);
+    }
+
+    function findTotalAnswers() public onlyDogeOwner returns (uint256) {
+        DogeAnswerCount(dogeAnswerCount);
     }
 
 }

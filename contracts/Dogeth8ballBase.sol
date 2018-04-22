@@ -4,6 +4,7 @@ import "./Dogeth8ballAuth.sol";
 
 contract Dogeth8ballBase is Dogeth8ballAuth {
   event DogeGaveAnswer(address indexed owner, uint256 answerId, uint256 theans);
+  event DogeAnswerCount(uint256 answerCount);
 
   struct DogeAnswer {
     address answerOwner;
@@ -11,8 +12,9 @@ contract Dogeth8ballBase is Dogeth8ballAuth {
   }
   DogeAnswer[] dogeAnswers;
   mapping (uint256 => address) public dogeAnswerToOwner;
+  uint256 dogeAnswerCount = 0;
 
-  function _findAnswer(address _owner) internal returns (uint256) {
+  function _findAnswer(address _owner) internal {
     // Doge look into crystal ball now, and see answer
     uint nowvar = now;
     uint256 rema = nowvar % 24;
@@ -26,14 +28,14 @@ contract Dogeth8ballBase is Dogeth8ballAuth {
 
     uint256 _nextAnswerId = dogeAnswers.push(_dogeAnswer) - 1;
 
-    // emit gave answer event
+    // emit gave answer event- much decision made now for answer
     DogeGaveAnswer (_owner, _nextAnswerId, rema);
 
     // track the _owner
     dogeAnswerToOwner[_nextAnswerId] = _owner;
 
-    // send back the answer - much decision made now for answer
-    return rema;
+    dogeAnswerCount++;
+
   }
 
 
