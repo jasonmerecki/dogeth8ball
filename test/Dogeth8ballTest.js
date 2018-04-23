@@ -6,7 +6,7 @@ contract('Dogeth8ball', function(accounts) {
     return Dogeth8ball.deployed().then(function (inst) {
       const dogeinst = inst;
       const params = {from: web3.eth.accounts[3], gas:1000000, value: web3.toWei(0.0000000000000001, "ether")};
-      return answerPromise = dogeinst.askDoge(params);
+      return dogeinst.askDoge(params);
     }).then(function (dogeBlockResult) {
       // this Promise should resolve to the block result
       const dgalog = dogeBlockResult.logs.find(log => log.event === "DogeGaveAnswer");
@@ -35,12 +35,12 @@ contract('Dogeth8ball', function(accounts) {
     return deplcont.then(function (inst) {
       const dogeinst = inst;
       const params = {from: web3.eth.accounts[3], gas:1000000, value: web3.toWei(0.0000000000000001, "ether")};
-      return answerPromise = dogeinst.askDoge(params);
+      return dogeinst.askDoge(params);
     }).then(function (dogeBlockResult) {
       // this Promise should resolve to the block result
       const dgalog = dogeBlockResult.logs.find(log => log.event === "DogeGaveAnswer");
       const theans = parseInt(dgalog.args.theans);
-      var result = theans >= 0 && theans <= 23;
+      const result = theans >= 0 && theans <= 23;
       assert(result , "askDoge answer is out of range");
     }).catch(function (reason) {
       // error calling the contract function - maybe it does not exist or Ganache is not running
@@ -50,68 +50,97 @@ contract('Dogeth8ball', function(accounts) {
   });
 
   it("should reject if coin value is too small", function() {
-    Dogeth8ball.deployed().then(function (inst) {
+    return Dogeth8ball.deployed().then(function (inst) {
       dogeinst = inst;
-      var params = {from: web3.eth.accounts[3], gas:1000000, value: web3.toWei(0.00000000000000009, "ether")};
-      var theans = dogeinst.askDoge(params)
-        .then(function (val) {
-          assert(false, "should revert");
-        })
-        .catch(function (err) {
-          // console.log('Error (presumably not enough wei): ' + err);
-        });
+      const params = {from: web3.eth.accounts[3], gas:1000000, value: web3.toWei(0.00000000000000009, "ether")};
+      return dogeinst.askDoge(params);
+    }).then(function (dogeBlockResult) {
+      assert(false, "should revert");
     })
-  }),
+      .catch(function (err) {
+      // console.log('Error (presumably not enough wei): ' + err);
+    });
+  });
 
   it("should reject non-dogeOwner from setting wei", function() {
-    Dogeth8ball.deployed().then(function (inst) {
+    return Dogeth8ball.deployed().then(function (inst) {
       dogeinst = inst;
-      var params = {from: web3.eth.accounts[3], gas:1000000};
-      var theans = dogeinst.setMinWei(1017, params)
-        .then(function (val) {
-          assert(false, "should revert");
-        })
-        .catch(function (err) {
-          // console.log('Error (presumably not enough wei): ' + err);
-        });
-    })
-  }),
+      const params = {from: web3.eth.accounts[3], gas:1000000};
+      return dogeinst.setMinWei(117, params);
+    }).then(function (dogeBlockResult) {
+      assert(false, "should revert");
+    }).catch(function (reason) {
+      assert(true, "all awesome " + reason);
+    });
+  });
 
   it("should alow dogeOwner to set wei", function() {
-    Dogeth8ball.deployed().then(function (inst) {
+    return Dogeth8ball.deployed().then(function (inst) {
       dogeinst = inst;
-      var params = {from: web3.eth.accounts[0], gas:1000000};
-      var theans = dogeinst.setMinWei(1017, params)
-        .then(function (val) {
-          assert(true, "all awesome");
-        });
-    })
-  }),
-
-  it("should alow dogeOwner to count answers", function() {
-    Dogeth8ball.deployed().then(function (inst) {
-      dogeinst = inst;
-      var params = {from: web3.eth.accounts[0], gas:1000000};
-      var theans = dogeinst.findTotalAnswers(params);
-      console.log("Total answer count: " + theans );
-      assert(theans > 0, "woah, not counting");
-    })
-  }),
+      const params = {from: web3.eth.accounts[0], gas:1000000};
+      return dogeinst.setMinWei(117, params);
+    }).then(function (dogeBlockResult) {
+      assert(true, "all awesome");
+    });
+  });
 
   it("should reject other users from getting count", function() {
-    Dogeth8ball.deployed().then(function (inst) {
+    return Dogeth8ball.deployed().then(function (inst) {
       dogeinst = inst;
-      var params = {from: web3.eth.accounts[3], gas:1000000};
-      var theans = dogeinst.findTotalAnswers(params).then(function (val) {
-          assert(false, "should revert");
-        })
-        .catch(function (err) {
-          // console.log('Error (presumably not enough wei): ' + err);
-        });
-    })
-  })
+      const params = {from: web3.eth.accounts[3], gas:1000000};
+      return dogeinst.findTotalAnswers(params);
+    }).then(function (val) {
+      assert(false, "should revert");
+    }).catch(function (reason) {
+      assert(true, "all good " + reason);
+    });
+  });
+
+  it("should alow dogeOwner to count answers", function() {
+    return Dogeth8ball.deployed().then(function (inst) {
+      dogeinst = inst;
+      const params = {from: web3.eth.accounts[0], gas:1000000};
+      return dogeinst.findTotalAnswers(params);
+    }).then(function (dogeBlockResult) {
+      const dgalog = dogeBlockResult.logs.find(log => log.event === "DogeAnswerCount");
+      const theans = parseInt(dgalog.args.answerCount);
+      assert(theans > 0, "woah, not counting");
+    });
+  });
+
+  it("should allow an owner to get their answer", function() {
+    var dogeinst;
+    var firstAnswerId;
+    return Dogeth8ball.deployed().then(function (inst) {
+      dogeinst = inst;
+      const params = {from: web3.eth.accounts[3], gas:1000000, value: web3.toWei(0.00000000000000018, "ether")};
+      return dogeinst.askDoge(params);
+    }).then(function (dogeBlockResult) {
+      const dgalog = dogeBlockResult.logs.find(log => log.event === "DogeGaveAnswer");
+      firstAnswerId = parseInt(dgalog.args.answerId);
+      const params = {from: web3.eth.accounts[3], gas:1000000};
+      return dogeinst.findMyDogeAnswer(firstAnswerId, params);
+    }).then(function (dogeBlockResult) {
+      const dgalog = dogeBlockResult.logs.find(log => log.event === "DogeGaveAnswer");
+      const theAnsId = parseInt(dgalog.args.answerId);
+      assert(firstAnswerId === theAnsId, "did not return the same answer IDs: " + firstAnswerId + ", " + theAnsId);
+    }).catch(function (reason) {
+      assert(false, "should have allowed getting an answer: " + reason);
+    });
+  });
+
+  it("should alow dogeOwner to get an answer they don't own", function() {
+    return Dogeth8ball.deployed().then(function (inst) {
+      dogeinst = inst;
+      const params = {from: web3.eth.accounts[0], gas:1000000};
+      return dogeinst.findADogeAnswer(2, params);
+    }).then(function (dogeBlockResult) {
+      const dgalog = dogeBlockResult.logs.find(log => log.event === "DogeGaveAnswer");
+      const theAnsId = parseInt(dgalog.args.answerId);
+      assert(theAnsId === 2, "dogeOwner did not get the answer ID requested: " + theAnsId);
+    });
+  });
 
 })
 
-// accounts[0] should be the owner
 

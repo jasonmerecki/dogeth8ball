@@ -14,7 +14,6 @@ contract Dogeth8ball is Dogeth8ballBase {
     function askDoge() public payable hasMinWei  {
         coinSlot = coinSlot + msg.value;
         _findAnswer(msg.sender);
-        DogeAnswerCount(dogeAnswerCount);
     }
 
     function findMyDogeAnswer(uint256 _dogeAnswerId) public {
@@ -29,7 +28,7 @@ contract Dogeth8ball is Dogeth8ballBase {
         DogeGaveAnswer (_dogeAnswer.answerOwner, _dogeAnswerId, _dogeAnswer.theans);
     }
 
-    function findTotalAnswers() public onlyDogeOwner returns (uint256) {
+    function findTotalAnswers() public onlyDogeOwner {
         DogeAnswerCount(dogeAnswerCount);
     }
 
