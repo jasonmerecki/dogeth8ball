@@ -9,6 +9,7 @@
     "eject": "react-scripts eject",
     "gethinitdev": "geth --datadir=./chaindata/ init ./genesis.json",
     "gethdev": "geth --datadir=./chaindata/ --rpc",
+    "gethattach": "geth attach --datadir=./chaindata/ ipc:/Users/jasonmerecki/wrkspaces/dogeth8ball/chaindata/geth.ipc",
     "truffle": "truffle",
     "ganache": "ganache-cli -p 7545 ",
     "ganachelimit": "ganache-cli -p 7545 --gasLimit 5000000",
