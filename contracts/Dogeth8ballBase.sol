@@ -14,7 +14,7 @@ contract Dogeth8ballBase is Dogeth8ballAuth {
   mapping (uint256 => address) public dogeAnswerToOwner;
   uint256 dogeAnswerCount = 0;
 
-  function _findAnswer(address _owner) internal {
+  function _findAnswer(address _owner) internal returns (uint256) {
     // Doge look into crystal ball now, and see answer
     uint nowvar = now;
     uint256 rema = nowvar % 24;
@@ -36,6 +36,7 @@ contract Dogeth8ballBase is Dogeth8ballAuth {
 
     dogeAnswerCount++;
 
+    return rema;
   }
 
 

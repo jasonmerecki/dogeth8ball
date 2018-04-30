@@ -2,7 +2,7 @@ var Dogeth8ball = artifacts.require("Dogeth8ball");
 
 contract('Dogeth8ball', function(accounts) {
 
-  it("should give an int value when asked", function() {
+  it("should send an answer event when asked", function() {
     return Dogeth8ball.deployed().then(function (inst) {
       const dogeinst = inst;
       const params = {from: web3.eth.accounts[3], gas:1000000, value: web3.toWei(0.0000000000000001, "ether")};
@@ -18,7 +18,21 @@ contract('Dogeth8ball', function(accounts) {
     });
   });
 
-  it("should give an int value between 0 and 23 using async/await syntax", async () => {
+  it("should give an int value when asked", function() {
+    return Dogeth8ball.deployed().then(function (inst) {
+      const dogeinst = inst;
+      const params = {from: web3.eth.accounts[3], gas:1000000, value: web3.toWei(0.0000000000000001, "ether")};
+      return dogeinst.askDoge.call(params);
+    }).then(function (theansobj) {
+      const theans = parseInt(theansobj);
+      assert((typeof theans === "number"), "askDoge did not give an integer answer");
+    }).catch(function (reason) {
+      // error calling the contract function - maybe it does not exist or Ganache is not running
+      assert(false, "askDoge did not reply properly, reason: " + reason);
+    });
+  });
+
+  it("should send an event with an answer between 0 and 23 using async/await syntax", async () => {
     const dogeinst = await Dogeth8ball.deployed();
     const params = {from: web3.eth.accounts[3], gas:1000000, value: web3.toWei(0.0000000000000001, "ether")};
     const dogeBlockResult = await dogeinst.askDoge(params);
@@ -30,7 +44,15 @@ contract('Dogeth8ball', function(accounts) {
     assert(result , "askDoge answer is out of range");
   });
 
-  it("should give an int value between 0 and 23 using promise syntax", function() {
+  it("should give an int value between 0 and 23 using async/await syntax", async () => {
+    const dogeinst = await Dogeth8ball.deployed();
+    const params = {from: web3.eth.accounts[3], gas:1000000, value: web3.toWei(0.0000000000000001, "ether")};
+    const theans = await dogeinst.askDoge.call(params);
+    const result = theans >= 0 && theans <= 23;
+    assert(result , "askDoge answer is out of range");
+  });
+
+  it("should send an event with an int value between 0 and 23 using promise syntax", function() {
     const deplcont = Dogeth8ball.deployed();
     return deplcont.then(function (inst) {
       const dogeinst = inst;
@@ -100,15 +122,15 @@ contract('Dogeth8ball', function(accounts) {
     return Dogeth8ball.deployed().then(function (inst) {
       dogeinst = inst;
       const params = {from: web3.eth.accounts[0], gas:1000000};
-      return dogeinst.findTotalAnswers(params);
-    }).then(function (dogeBlockResult) {
-      const dgalog = dogeBlockResult.logs.find(log => log.event === "DogeAnswerCount");
-      const theans = parseInt(dgalog.args.answerCount);
+      return dogeinst.findTotalAnswers.call(params);
+    }).then(function (theansobj) {
+      // const dgalog = dogeBlockResult.logs.find(log => log.event === "DogeAnswerCount");
+      const theans = parseInt(theansobj);
       assert(theans > 0, "woah, not counting");
     });
   });
 
-  it("should allow an owner to get their answer", function() {
+  it("should send event to allow an owner to get their answer", function() {
     var dogeinst;
     var firstAnswerId;
     return Dogeth8ball.deployed().then(function (inst) {
