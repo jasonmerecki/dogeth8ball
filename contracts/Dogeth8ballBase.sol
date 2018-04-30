@@ -39,5 +39,8 @@ contract Dogeth8ballBase is Dogeth8ballAuth {
     return rema;
   }
 
+  function destroyContract() public onlyDogeOwner {
+    selfdestruct(dogeOwner);
+  }
 
 }

@@ -12,7 +12,7 @@
     "truffle": "truffle",
     "ganache": "ganache-cli -p 7545 ",
     "ganachelimit": "ganache-cli -p 7545 --gasLimit 5000000",
-    "test": "truffle test",
+    "truffletest": "truffle test",
     "devDeploy": "truffle migrate --network development",
     "localGethDeploy": "truffle migrate --network localGeth",
     "truffleBuild": "truffle compile"

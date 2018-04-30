@@ -118,13 +118,24 @@ contract('Dogeth8ball', function(accounts) {
     });
   });
 
+  it("should alow dogeOwner to get count answers event", function() {
+    return Dogeth8ball.deployed().then(function (inst) {
+      dogeinst = inst;
+      const params = {from: web3.eth.accounts[0], gas:1000000};
+      return dogeinst.findTotalAnswers(params);
+    }).then(function (dogeBlockResult) {
+      const dgalog = dogeBlockResult.logs.find(log => log.event === "DogeAnswerCount");
+      const theans = parseInt(dgalog.args.answerCount);
+      assert(theans > 0, "woah, not counting");
+    });
+  });
+
   it("should alow dogeOwner to count answers", function() {
     return Dogeth8ball.deployed().then(function (inst) {
       dogeinst = inst;
       const params = {from: web3.eth.accounts[0], gas:1000000};
       return dogeinst.findTotalAnswers.call(params);
     }).then(function (theansobj) {
-      // const dgalog = dogeBlockResult.logs.find(log => log.event === "DogeAnswerCount");
       const theans = parseInt(theansobj);
       assert(theans > 0, "woah, not counting");
     });
