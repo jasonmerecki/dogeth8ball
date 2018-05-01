@@ -2,9 +2,13 @@
   "difficulty" : "0x20000",
   "extraData"  : "",
   "gasLimit"   : "0x8000000",
-  "alloc": {},
+  "alloc": {
+    "0x868b860c7c84bdbe90a138d6f06f172c655034df" : {
+      "balance": "0x2337000000000000000000"
+    }
+  },
   "config": {
-    "chainId": 15,
+    "chainId": 16,
     "homesteadBlock": 0,
     "eip155Block": 0,
     "eip158Block": 0
